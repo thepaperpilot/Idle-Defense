@@ -1,0 +1,43 @@
+{
+  "name": "idle-defense",
+  "version": "1.0.0",
+  "description": "An idle tower defense game",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "author": "thepaperpilot",
+  "license": "ISC",
+  "dependencies": {
+    "d-path-parser": "^1.0.0",
+    "pixi-vector-graphics": "0.0.5",
+    "react-animate-height": "^2.0.4",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
+    "react-scripts": "^1.1.5",
+    "react-select": "^2.0.0",
+    "xml-loader": "^1.2.1"
+  },
+  "devDependencies": {
+    "classnames": "^2.2.6",
+    "eslint": "^5.4.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "pixi-viewport": "^3.3.2",
+    "pixi.js": "^4.8.1",
+    "react": "^16.4.2",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.4.2",
+    "react-pixi-fiber": "^0.4.9",
+    "react-redux": "^5.0.7",
+    "react-resize-observer": "^1.0.3",
+    "react-router-dom": "^4.3.1",
+    "react-scrollbar": "^0.5.4",
+    "react-textfit": "^1.1.0",
+    "redux": "^4.0.0"
+  }
+}

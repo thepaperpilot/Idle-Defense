@@ -1,0 +1,40 @@
+/* Edited from https://codepen.io/BuddyLReno/pen/boGRPO */
+
+.field input[type="checkbox"] {
+	display: none;
+}
+
+.field input[type="checkbox"] ~ label {
+	padding-right: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+}
+
+.field input[type="checkbox"] ~ label:after {
+	width: 28px;
+    height: 28px;
+    content: '';
+    border: 2px solid #D1D7DC;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+    background-repeat: no-repeat;
+    background-position: 2px 3px;
+    border-radius: 50%;
+    z-index: 2;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: all 200ms ease-in;
+}
+
+.field input[type="checkbox"]:checked ~ label {
+	color: #fff;
+}
+
+.field input[type="checkbox"]:checked ~ label:after {
+    background-color: rgb(0, 255, 255);
+    border-color: rgb(0, 255, 255);
+}

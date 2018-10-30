@@ -1,0 +1,33 @@
+html {
+	height: calc(100% - 10px);
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	font-family: 'Roboto', sans-serif;
+}
+
+#root {
+	height: 100%;
+}
+
+button {
+	width: calc(100% - 8px);
+    margin: 4px;
+    box-sizing: border-box;
+    background: none;
+    color: rgb(0, 255, 255);
+    border: solid 2px rgb(0, 255, 255);
+    padding: 4px;
+}
+
+button:disabled {
+	opacity: .65;
+}
+
+button:hover:not(:disabled) {
+	background: #044;
+}

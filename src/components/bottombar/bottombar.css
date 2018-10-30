@@ -1,0 +1,65 @@
+.bottombar {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 80%;
+	bottom: 0;
+	background: black;
+	box-shadow: 0 0 0 10px black inset, 0 0 0 20px rgb(0, 255, 255) inset;
+}
+
+.bottombar .scrollarea,
+.bottombar .scrollarea-content {
+	height: 100%;
+}
+
+.bottombar .scrollarea-content {
+	display: inline-block;
+}
+
+.bottombar .towers {
+	white-space: nowrap;
+    height: 100%;
+    min-width: 100%;
+    display: inline-flex;
+}
+
+.bottombar .tower {
+	user-select: none;
+	cursor: pointer;
+	margin: 6px;
+	height: calc(100% - 10px);
+	background: black;
+	border: solid rgb(0, 255, 255) 2px;
+	color: white;
+	box-sizing: border-box;
+	padding: 4px;
+	display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all .25s ease;
+    flex-basis: 0;
+}
+
+.bottombar .tower > img {
+	margin: 4px;
+    margin-bottom: 8px;
+}
+
+.bottombar .tower.basic svg {
+	padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.selected.tower {
+    border-color: greenyellow;
+	transform: scale(1.05);
+}
+
+.bottombar p {
+	margin: 0;
+}
+
+.cant-afford .currency {
+	color: red;
+}

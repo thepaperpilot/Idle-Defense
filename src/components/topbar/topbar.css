@@ -1,0 +1,31 @@
+.topbar {
+	background: black;
+	height: 30px;
+	display: flex;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.topbar .currency {
+	text-align: right;
+    min-width: 5em;
+	border-right: solid 1px rgb(0, 255, 255);
+	padding-right: 4px;
+    font-size: 25px;
+    line-height: 30px;
+    height: 30px;
+}
+
+.topbar .currency span {
+    transform: translateY(-2px);
+}
+
+.topbar .flex-grow {
+	flex-grow: 1;
+    flex-basis: 0;
+}
+
+.topbar img {
+	height: 25px;
+    transform: translateY(2px);
+}

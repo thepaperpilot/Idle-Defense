@@ -1,0 +1,26 @@
+.currency {
+	height: 20px;
+    display: inline-block;
+}
+
+.currency-mana {
+	color: lightblue;
+}
+
+.currency-bones {
+	color: lightgrey;
+}
+
+.currency img {
+	height: 20px;
+	padding: 2px;
+	box-sizing: border-box;
+	margin: 0;
+}
+
+.currency span {
+	display: inline-block;
+    margin-left: 4px;
+	margin-right: 4px;
+	transform: translateY(-4px);
+}

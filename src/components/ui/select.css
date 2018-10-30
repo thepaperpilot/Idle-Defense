@@ -1,0 +1,63 @@
+.field .select__control {
+	background: black;
+}
+
+.field .select__control--is-focused {
+	border-color: rgb(0, 255, 255);
+	box-shadow: 0 0 0 1px rgb(0, 255, 255);
+	border-radius: 4px 4px 0 0;
+}
+
+.field .select__control--is-focused:hover {
+	border-color: rgb(0, 255, 255);
+}
+
+.field .select__input {
+	color: #eee;
+}
+
+.field .select__menu {
+	background-color: black;
+	margin-top: 0;
+	border: solid 2px rgb(0, 255, 255);
+	border-radius: 0 0 4px 4px;
+	width: calc(100% + 2px);
+	left: -1px;
+}
+
+.field .select__menu-list {
+	padding: 0;
+}
+
+.field .select__option--is-focused {
+	background-color: #444;
+}
+
+.field .select__option:last-child {
+	border-radius: 0 0 2px 2px;
+}
+
+.field .option, .field .select__option {
+	display: flex;
+	align-items: center;
+}
+
+.field .option img {
+	height: 40px;
+}
+
+.field .select__option img {
+	height: 25px;
+}
+
+.field .select__single-value, .field .option-label {
+	color: #eee;
+    position: unset;
+    line-height: 48px;
+    transform: none;
+    margin-left: 8px;
+}
+
+.field .option-label {
+	line-height: 25px;
+}

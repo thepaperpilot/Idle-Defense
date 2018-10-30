@@ -1,0 +1,11 @@
+.field input[type="number"] {
+    border-bottom-width: 1px;
+    padding: 4px;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+    height: 18px;
+}
+
+.field input[type="number"]:focus {
+    border-bottom-width: 1px;
+}

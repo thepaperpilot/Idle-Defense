@@ -1,0 +1,65 @@
+.sidebar {
+	flex-basis: 0;
+	background: black;
+	margin-left: -1px;
+	flex-basis: 20%;
+	border: solid 1px rgb(0, 255, 255);
+	z-index: 100;
+	height: calc(80% - 6px);
+}
+
+.game.editor .sidebar {
+	height: unset;
+}
+
+.sidebar-header {
+	background: black;
+	border-bottom: solid 1px rgb(0, 255, 255);
+	color: white;
+	text-align: center;
+	padding: 4px;
+}
+
+.sidebar-card {
+	margin: 6px;
+	width: calc(100% - 10px);
+	background: black;
+	border: solid rgb(0, 255, 255) 2px;
+	color: white;
+	box-sizing: border-box;
+	padding: 4px;
+}
+
+.sidebar .tiles {
+	display: flex;
+    flex-wrap: wrap;
+}
+
+.sidebar .tile, .sidebar button {
+	margin: 6px;
+	width: calc(100% - 12px);
+}
+
+.sidebar .tiles .tile {
+	width: calc(50% - 12px);
+}
+
+.sidebar .tile img {
+	width: 100%;
+}
+
+.sidebar hr {
+	border: none;
+	height: 2px;
+	background-color: rgb(0, 255, 255);
+	margin: 6px;
+}
+
+.selected.tile {
+    border-color: greenyellow;
+	transform: scale(1.05);
+}
+
+.sidebar .scrollarea {
+	height: 100%;
+}

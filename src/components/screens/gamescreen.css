@@ -1,0 +1,10 @@
+.game {
+	display: flex;
+	width: 125%;
+	height: calc(100% + -20px);
+	transition: width .25s ease;
+}
+
+.game.editor, .game.sidebar-is-open {
+	width: 100%;
+}

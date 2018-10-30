@@ -1,0 +1,29 @@
+.field {
+	margin: 6px;
+	width: calc(100% - 12px);
+	background: black;
+	border: solid rgb(0, 255, 255) 2px;
+	color: white;
+	padding: 4px;
+	display: inline-flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.field-title {
+	margin: 2px 0;
+}
+
+input, select, textarea {
+    background: none;
+    border: none;
+    border-bottom: solid 2px #969696;
+    color: #FFF;
+    transition: border 0.3s;
+    width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-bottom: solid 2px #c9c9c9;
+    outline: none;
+}
