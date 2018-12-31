@@ -1,21 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { LoopContext } from './../gameLoop/GameLoop'
 
 class WaveSender extends Component {
 	constructor(props) {
 		super(props)
 
-		this.restart = this.restart.bind(this)
+		this.update = this.update.bind(this)
+		this.startWave = this.startWave.bind(this)
 		this.sendEnemy = this.sendEnemy.bind(this)
 
-		this.restart()
+		this.delta = 0
+		this.startWave()
 	}
 
-	restart() {
-		if (this.timeout)
-			clearTimeout(this.timeout)
-		this.timeout = setTimeout(this.sendEnemy, this.props.initialDelay)
+	update(delta) {
+		this.delta += delta
+		while (this.delta >= this.delay) {
+			this.delta -= this.delay
+			if (this.sending)
+				this.sendEnemy()
+			else
+				this.startWave()
+		}
+	}
+
+	startWave() {
 		this.sent = 0
+		this.sending = true
+		this.delay = this.props.initialDelay
 	}
 
 	sendEnemy() {
@@ -38,10 +51,19 @@ class WaveSender extends Component {
 			this.props.dispatch({
 				type: 'NEXT_WAVE'
 			})
-			this.timeout = setTimeout(this.sendEnemy, wave.boundToNextWave ? enemyDelay : waveDelay)
+			this.delay = wave.boundToNextWave ? enemyDelay : waveDelay
+			this.sending = false
 		} else {
-			this.timeout = setTimeout(this.sendEnemy, enemyDelay)
+			this.delay = enemyDelay
 		}
+	}
+
+	componentDidMount() {
+		this.props.subscribe(this.update)
+	}
+
+	componentWillUnmount() {
+		this.props.unsubscribe(this.update)
 	}
 
 	render() {
@@ -62,4 +84,8 @@ function mapStateToProps(state, props) {
 	}
 }
 
-export default connect(mapStateToProps)(WaveSender)
+const WrappedWaveSender = connect(mapStateToProps)(WaveSender)
+
+export default props => <LoopContext.Consumer>
+	{value => <WrappedWaveSender {...props} {...value} />}
+</LoopContext.Consumer>

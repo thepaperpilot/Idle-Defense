@@ -23,7 +23,7 @@ class Tower extends Component {
 		return <div
 			className={`tower ${name.split(' ')[0].toLowerCase()} ${selected ? 'selected' : ''}`}
 			onClick={this.selectTower}>
-			<Image image={image} />
+			<svg viewBox="0 0 100 100"><Image image={image} /></svg>
 			<p>{name}</p>
 			{Object.keys(cost).map(c =>
 				<span key={c}

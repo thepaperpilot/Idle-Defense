@@ -3,7 +3,7 @@ const util = require('./../util')
 export const DEFAULTS = {
 	towers: [
 		{
-			image: 'coin',
+			image: 'Coin',
 			name: 'Basic Tower',
 			range: 150,
 			cost: {
@@ -12,7 +12,7 @@ export const DEFAULTS = {
 			}
 		},
 		{
-			image: 'diamond',
+			image: 'Diamond',
 			name: 'Advanced Tower',
 			range: 200,
 			cost: {

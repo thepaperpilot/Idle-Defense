@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Container } from 'react-pixi-fiber'
 import * as PIXI from 'pixi.js'
-import SVGSprite from './../images/SVGSprite'
+import SVG from './../images/SVG'
 import Range from './Range'
 
 class PlacingTower extends Component {
@@ -44,12 +44,14 @@ class PlacingTower extends Component {
 		const x = ((index % columns) + .5) * tileSize
 		const y = (Math.floor(index / columns) + .5) * tileSize
 
-		return placing ? <Container x={x} y={y} alpha={0.5}>
-			<SVGSprite texture={placing.image} />
+		const Svg = SVG[placing.image]
+
+		return placing ? <g x={x} y={y} alpha={0.5}>
+			<Svg />
 			<Range
 				range={placing.range}
 				color={canPlace ? 0x00FF00 : 0xFF0000} />
-		</Container> : null
+		</g> : null
 	}
 }
 

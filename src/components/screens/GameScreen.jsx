@@ -46,13 +46,14 @@ class GameScreen extends Component {
 					onMouseOver={this.onMouseOver}
 					onMouseOut={this.onMouseOut}
 					placeTower={this.placeTower}
-					running={true} />
+					running={true}>
+					<WaveSender />
+				</Map>
 				<PlacingTower ref={this.placing} index={this.state.index} />
 			</Stage>
 			<Sidebar />
 			<Bottombar />
 			<RouteFinder />
-			<WaveSender />
 		</div>
 	}
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import SVGAnimation from './../images/SVGAnimation'
+import AnimatedSVG from './../images/AnimatedSVG'
 
 class Enemy extends Component {
 	constructor(props) {
@@ -58,7 +58,7 @@ class Enemy extends Component {
 	render() {
 		const {image, x, y} = this.props
 
-		return <SVGAnimation textures={image} x={x} y={y} interactive={true} pointerdown={this.click} />
+		return <AnimatedSVG frames={image} x={x} y={y} interactive={true} pointerdown={this.click} />
 	}
 }
 

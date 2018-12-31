@@ -9,29 +9,9 @@ import Tower from './../towers/Tower'
 import Enemy from './../enemies/Enemy'
 
 class Map extends Component {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			entities: {
-				entities: []
-			}
-		}
-
-		this.entities = React.createRef()
-	}
-
-	componentDidMount() {
-		this.setState({
-			entities: this.entities.current
-		})
-	}
-
 	render() {
-		const {map, specialEntities, running, baseTiles, tileSize} = this.props
-		return <GameLoop
-			running={this.props.running}
-			entities={this.state.entities.entities}>
+		const {map, specialEntities, running, baseTiles, tileSize, children} = this.props
+		return <GameLoop>
 			<Tiles width={map.width} height={map.height}
 				tiles={map.tiles}
 				baseTiles={baseTiles}
@@ -39,7 +19,7 @@ class Map extends Component {
 				onMouseOver={this.props.onMouseOver}
 				onMouseOut={this.props.onMouseOut}
 				placeTower={this.props.placeTower} />
-			<Entities entities={map.entities} ref={this.entities} />
+			<Entities entities={map.entities} />
 			{specialEntities.map(entity => {
 				const props = { key: entity.key, index: entity.index, interactive: running }
 				switch (entity.key) {
@@ -48,6 +28,7 @@ class Map extends Component {
 				default: return null
 				}
 			})}
+			{children}
 		</GameLoop>
 	}
 }

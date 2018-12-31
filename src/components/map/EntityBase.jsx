@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Sprite } from 'react-pixi-fiber'
-import SVGAnimation from './../images/SVGAnimation'
-import SVGSprite from './../images/SVGSprite'
-import * as PIXI from 'pixi.js'
+import AnimatedSVG from './../images/AnimatedSVG'
+import Image from './../images/Image'
 
 const CLICK_RANGE = 2
 
@@ -47,21 +45,19 @@ class Entity extends Component {
 			mouseout: mouseout,
 			pointerdown: this.pointerdown,
 			pointertap: this.pointertap,
-			position: [x, y]
+			x,
+			y
 		}, props)
 
 		if (mouseover) spriteProps.mouseover = mouseover
 		if (mouseout) spriteProps.mouseout = mouseout
 
 		if (Array.isArray(image)) {
-			spriteProps.textures = image
-			return <SVGAnimation {...spriteProps} />
-		} else if (image in PIXI.utils.TextureCache) {
-			spriteProps.texture = PIXI.utils.TextureCache[image]
-			return <Sprite {...spriteProps} />
+			spriteProps.frames = image
+			return <AnimatedSVG {...spriteProps} />
 		} else {
-			spriteProps.texture = image
-			return <SVGSprite {...spriteProps} />
+			spriteProps.image = image
+			return <Image {...spriteProps} />
 		}
 	}
 }

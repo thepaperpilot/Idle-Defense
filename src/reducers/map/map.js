@@ -70,7 +70,7 @@ export const DEFAULTS = {
 		"130": {
 			"base": "default",
 			"images": [
-			"rock-1"
+			"Rock1"
 			]
 		},
 		"149": {

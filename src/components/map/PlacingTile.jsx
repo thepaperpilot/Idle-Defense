@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Container } from 'react-pixi-fiber'
-import SVGSprite from './../images/SVGSprite'
+import SVG from './../images/SVG'
 import * as PIXI from 'pixi.js'
 
 class PlacingTile extends Component {
@@ -47,9 +47,11 @@ class PlacingTile extends Component {
 		const x = ((index % columns) + .5) * tileSize
 		const y = (Math.floor(index / columns) + .5) * tileSize
 
-		return image == null ? null : <Container x={x} y={y} alpha={0.5}>
-			<SVGSprite texture={image.image || image || 'cross'} />
-		</Container>
+		const Svg = SVG[image.image || image || 'cross']
+
+		return image == null ? null : <g x={x} y={y} alpha={0.5}>
+			<Svg />
+		</g>
 	}
 }
 

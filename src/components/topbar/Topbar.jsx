@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Currency from './../ui/Currency'
+import Image from './../images/Image'
 import './topbar.css'
 
 class Topbar extends Component {
@@ -11,8 +12,8 @@ class Topbar extends Component {
 			{Object.keys(wallet).map(c =>
 				<Currency name={c} amount={wallet[c]} key={c} />)}
 			<div className="flex-grow" />
-			<Link to="/editor"><img src="images/toolBrush.png" alt="editor" title="editor" /></Link>
-			<Link to="/"><img src="images/home.png" alt="home" title="home" /></Link>
+			<Link to="/editor"><Image image="toolBrush" alt="editor" /></Link>
+			<Link to="/"><Image image="home" /></Link>
 		</div>
 	}
 }

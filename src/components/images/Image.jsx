@@ -1,20 +1,35 @@
 import React, { Component } from 'react'
+import SVG from './SVG'
+import bones from './bones.png'
+import cross from './cross.png'
+import home from './home.png'
+import mana from './mana.png'
+import tile from './tile.png'
+import toolBrush from './toolBrush.png'
+import walkable1 from './walkable-1.png'
 
-const Tilesheet = require('./drawing.svg')
-
-const TextureCache = window.PIXI.utils.TextureCache
+const textures = {
+	bones,
+	cross,
+	home,
+	mana,
+	tile,
+	toolBrush,
+	walkable1
+}
 
 class Image extends Component {
 	render() {
-		const {image, alt} = this.props
+		const {image, alt, ...props} = this.props
 
-		if (image in TextureCache) {
-			return <img src={TextureCache[image].baseTexture.imageUrl} alt={alt || image} />
-		} else {
-			return <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-				<use xlinkHref={`${Tilesheet}#${image}`} />
-			</svg>
+		if (image in SVG) {
+			const Svg = SVG[image]
+			return <Svg {...props} />
+		} else if (image in textures) {
+			return <img src={textures[image]} alt={alt || image} title={alt || image} {...props} />
 		}
+
+		return null
 	}
 }
 

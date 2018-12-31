@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Stage } from 'react-pixi-fiber'
 import ResizeObserver from 'react-resize-observer'
-import Viewport from './Viewport'
 import './stage.css'
 
 class MyStage extends Component {
@@ -27,17 +25,12 @@ class MyStage extends Component {
 	render() {
 		const {width, height} = this.state
 		const {children, worldWidth, worldHeight, tileSize} = this.props
+		const viewbox = [0, 0, worldWidth * tileSize, worldHeight * tileSize]
 		return <div className="stage">
 			<div className="inset" />
-			<Stage width={width} height={height} options={{
-				transparent: true,
-				antialias: true
-			}}>
-				<Viewport width={width} height={height}
-					worldWidth={worldWidth * tileSize} worldHeight={worldHeight * tileSize}>
-					{children}
-				</Viewport>
-			</Stage>
+			<svg viewBox={viewbox}>
+				{children}
+			</svg>
 			<ResizeObserver
 				onResize={this.onResize}>
 			</ResizeObserver>

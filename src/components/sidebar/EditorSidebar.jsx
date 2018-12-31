@@ -8,14 +8,14 @@ import Waves from './Waves'
 import './sidebar.css'
 
 const tiles = [
-	'bush-1',
-	'bush-2',
-	'bush-3',
-	'bush-4',
-	'bush-5',
-	'rock-1',
-	'rock-2',
-	'rock-3'
+	'Bush-1',
+	'Bush-2',
+	'Bush-3',
+	'Bush-4',
+	'Bush-5',
+	'Rock-1',
+	'Rock-2',
+	'Rock-3'
 ]
 
 class EditorBottombar extends Component {

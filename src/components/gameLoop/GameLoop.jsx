@@ -1,33 +1,46 @@
-import { Component } from 'react'
-import * as PIXI from 'pixi.js'
+import React, { Component } from 'react'
+
+export const LoopContext = React.createContext()
 
 class GameLoop extends Component {
 	constructor(props) {
 		super(props)
 
+		this.subscriptions = []
+
 		this.update = this.update.bind(this)
-	}
-
-	update(delta) {
-		if (!this.props.running) return
-
-		// I don't like needing to do all this unwrapping :/
-		this.props.entities.forEach(e => {
-			if (e.current)
-				e.current.getWrappedInstance().update(delta)
-		})
+		this.subscribe = this.subscribe.bind(this)
+		this.unsubscribe = this.unsubscribe.bind(this)
 	}
 
 	componentDidMount() {
-		PIXI.ticker.shared.add(this.update, this)
+		this.request = requestAnimationFrame(this.update)
 	}
 
 	componentWillUnmount() {
-		PIXI.ticker.shared.remove(this.update, this)
+		cancelAnimationFrame(this.request)
+	}
+
+	update(timestamp) {
+		const delta = timestamp - (this.lastframe || timestamp)
+		this.lastframe = timestamp
+		this.subscriptions.forEach(s => s(delta))
+		this.request = requestAnimationFrame(this.update)
+	}
+
+	subscribe(cb) {
+		this.subscriptions.push(cb)
+	}
+
+	unsubscribe(cb) {
+		this.subscriptions.remove(cb)
 	}
 
 	render() {
-		return this.props.children
+		const value = { subscribe: this.subscribe, unsubscribe: this.unsubscribe }
+		return <LoopContext.Provider value={value}>
+			{this.props.children}
+		</LoopContext.Provider>
 	}
 }
 
