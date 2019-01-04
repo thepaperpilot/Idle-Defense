@@ -1,14 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container } from 'react-pixi-fiber'
+import { Container } from 'pixi.js'
 import SVGSprite from './../images/SVGSprite'
-import * as PIXI from 'pixi.js'
 
 class PlacingTile extends Component {
 	constructor(props) {
 		super(props)
 
 		this.place = this.place.bind(this)
+	}
+
+	componentDidMount() {
+		const {image, index, columns, tileSize} = this.props
+
+		this.props.stage.addChild(this.container = new Container())
+		this.container.x = ((index % columns) + .5) * tileSize
+		this.container.y = (Math.floor(index / columns) + .5) * tileSize
+
+		this.container.addChild(this.sprite = new SVGSprite({texture: image.image || image || 'cross'}))
+	}
+
+	componentWillReceiveProps(newProps) {
+		const image = this.props.image
+		
+		if (this.props.image !== newProps.image) {
+			this.container.removeChild(this.sprite)
+			this.container.addChild(this.sprite = new SVGSprite({texture: image.image || image || 'cross'}))
+		}
+		this.container.alpha = image == null ? 0 : 0.5
 	}
 
 	place() {
@@ -41,15 +60,7 @@ class PlacingTile extends Component {
 	}
 
 	render() {
-		if (this.props.index == null) return null
-
-		const {image, index, columns, tileSize} = this.props
-		const x = ((index % columns) + .5) * tileSize
-		const y = (Math.floor(index / columns) + .5) * tileSize
-
-		return image == null ? null : <Container x={x} y={y} alpha={0.5}>
-			<SVGSprite texture={image.image || image || 'cross'} />
-		</Container>
+		return null
 	}
 }
 

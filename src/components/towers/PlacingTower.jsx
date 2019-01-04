@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container } from 'react-pixi-fiber'
-import * as PIXI from 'pixi.js'
+import { Container } from 'pixi.js'
 import SVGSprite from './../images/SVGSprite'
 import Range from './Range'
 
@@ -10,6 +9,28 @@ class PlacingTower extends Component {
 		super(props)
 
 		this.place = this.place.bind(this)
+	}
+
+	componentDidMount() {
+		const {placing, canPlace, index, columns, tileSize} = this.props
+
+		this.props.stage.addChild(this.container = new Container())
+		this.container.x = ((index % columns) + .5) * tileSize
+		this.container.y = (Math.floor(index / columns) + .5) * tileSize
+
+		this.container.addChild(this.sprite = new SVGSprite({texture: placing && placing.image}))
+		this.container.addChild(this.range = Range(placing ? placing.range : 0, canPlace ? 0x00FF00 : 0xFF0000))
+	}
+
+	componentWillReceiveProps(newProps) {
+		if(this.props.placing !== newProps.placing) {
+			this.container.removeChild(this.sprite)
+			this.container.addChild(this.sprite = new SVGSprite({texture: newProps.placing && newProps.placing.image}))
+			this.container.removeChild(this.range)
+			this.container.addChild(this.range =
+				Range(newProps.placing ? newProps.placing.range : 0, newProps.canPlace ? 0x00FF00 : 0xFF0000))
+		}
+		this.container.alpha = newProps.placing ? 0.5 : 0
 	}
 
 	place(shiftKey) {
@@ -38,18 +59,7 @@ class PlacingTower extends Component {
 	}
 
 	render() {
-		if (this.props.index == null) return null
-
-		const {placing, canPlace, index, columns, tileSize} = this.props
-		const x = ((index % columns) + .5) * tileSize
-		const y = (Math.floor(index / columns) + .5) * tileSize
-
-		return placing ? <Container x={x} y={y} alpha={0.5}>
-			<SVGSprite texture={placing.image} />
-			<Range
-				range={placing.range}
-				color={canPlace ? 0x00FF00 : 0xFF0000} />
-		</Container> : null
+		return null
 	}
 }
 

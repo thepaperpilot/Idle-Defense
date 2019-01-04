@@ -118,6 +118,7 @@ export const DEFAULTS = {
 			"id": 0
 		},
 		{
+			/* the fast enemy lags the whole page down like 100x */
 			"enemy": "fast",
 			"amount": 8,
 			"boundToNextWave": false,

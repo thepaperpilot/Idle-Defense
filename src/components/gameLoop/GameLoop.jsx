@@ -11,11 +11,8 @@ class GameLoop extends Component {
 	update(delta) {
 		if (!this.props.running) return
 
-		// I don't like needing to do all this unwrapping :/
-		this.props.entities.forEach(e => {
-			if (e.current)
-				e.current.getWrappedInstance().update(delta)
-		})
+		console.log(this.props.props.entities.length)
+		this.props.props.entities.forEach(e => e.update(delta, this.props.props))
 	}
 
 	componentDidMount() {

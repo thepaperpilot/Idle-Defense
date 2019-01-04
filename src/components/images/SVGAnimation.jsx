@@ -1,10 +1,6 @@
-import React from 'react'
-import { CustomPIXIComponent } from "react-pixi-fiber"
 import SVGGraphics from 'pixi-vector-graphics'
 import * as PIXI from 'pixi.js'
 const Tilesheet = require('./animations.svg')
-
-const TYPE = "SVGAnimation"
 
 const waiting = []
 let tiles = null
@@ -46,32 +42,6 @@ function update(delta) {
 	}
 }
 
-// Create a container to store the svg from our spritesheet
-const behavior = {
-	customDisplayObject: props => {
-		const instance = new PIXI.Container()
-		instance.delta = 0
-		instance.frame = 0
-		instance.frameDuration = props.frameDuration || 25
-
-		// Load immediately if our tilesheet has been loaded
-		if (tiles) {
-			loadTiles({ instance, props })
-		} else {
-			// Otherwise tell the tilesheet loader we're waiting
-			waiting.push({ instance, props })
-		}
-
-		return instance
-	},
-	customDidAttach: instance => {
-		PIXI.ticker.shared.add(update, instance)
-	},
-	customWillDetach: instance => {
-		PIXI.ticker.shared.remove(update, instance)
-	}
-}
-
 // Load our tilesheet
 fetch(Tilesheet)
 	.then(response => response.text())
@@ -88,4 +58,22 @@ fetch(Tilesheet)
 		waiting.forEach(loadTiles)
 	})
 
-export default CustomPIXIComponent(behavior, TYPE)
+export default props => {
+	const instance = new PIXI.Container()
+	instance.props = props
+	instance.delta = 0
+	instance.frame = 0
+	instance.frameDuration = props.frameDuration || 25
+
+	// Load immediately if our tilesheet has been loaded
+	if (tiles) {
+		loadTiles({ instance, props })
+	} else {
+		// Otherwise tell the tilesheet loader we're waiting
+		waiting.push({ instance, props })
+	}
+
+	instance.update = update.bind(instance)
+
+	return instance
+}

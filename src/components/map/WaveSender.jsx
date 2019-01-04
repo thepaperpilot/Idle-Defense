@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Enemy from './../enemies/Enemy'
 
 class WaveSender extends Component {
 	constructor(props) {
@@ -19,18 +20,15 @@ class WaveSender extends Component {
 	}
 
 	sendEnemy() {
-		const {enemies, wave, enemyDelay, waveDelay} = this.props
+		const {enemies, wave, enemyDelay, waveDelay, path} = this.props
 		const enemy = Object.assign({
-			type: 'enemy',
 			id: WaveSender.id++,
 			x: NaN,
-			y: NaN
+			y: NaN,
+			path
 		}, enemies[wave.enemy])
 
-		this.props.dispatch({
-			type: 'ADD_ENTITY',
-			entity: enemy
-		})
+		this.props.addEntities(new Enemy(enemy))
 
 		this.sent++
 
@@ -52,9 +50,10 @@ class WaveSender extends Component {
 WaveSender.id = 0
 
 function mapStateToProps(state, props) {
-	const {waves, wave} = props.map || state.map
+	const {waves, wave, path} = props.map || state.map
 	return {
 		wave: waves[wave],
+		path,
 		initialDelay: state.constants.initialDelay,
 		waveDelay: state.constants.waveDelay,
 		enemyDelay: state.constants.enemyDelay,

@@ -1,22 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Entity from './EntityBase'
+import EntityBase from './EntityBase'
 
-class SpecialEntity extends Component {
-	render() {
-		const {index, image, columns, tileSize, ...props} = this.props
-		const x = ((index % columns) + .5) * tileSize
-		const y = (Math.floor(index / columns) + .5) * tileSize
+class SpecialEntity extends EntityBase {
+	constructor(props) {
+		super(props)
 
-		return <Entity x={x} y={y} image={image} {...props} />
+		const {index, columns, tileSize} = this.props
+		this.sprite.position.x = ((index % columns) + .5) * tileSize
+		this.sprite.position.y = (Math.floor(index / columns) + .5) * tileSize
 	}
 }
 
-function mapStateToProps(state, props) {
-	return {
-		columns: state.map.width,
-		tileSize: state.constants.tileSize
-	}
-}
-
-export default connect(mapStateToProps)(SpecialEntity)
+export default SpecialEntity

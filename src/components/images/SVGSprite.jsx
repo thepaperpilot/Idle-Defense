@@ -1,10 +1,6 @@
-import React from 'react'
-import { CustomPIXIComponent } from "react-pixi-fiber"
 import SVGGraphics from 'pixi-vector-graphics'
-import * as PIXI from 'pixi.js'
+import { Container } from 'pixi.js'
 const Tilesheet = require('./drawing.svg')
-
-const TYPE = "SVGSprite"
 
 const waiting = []
 let tiles = null
@@ -25,23 +21,6 @@ function parseNode(xml) {
 	Array.from(xml.children || xml.childNodes || []).forEach(parseNode, this)
 }
 
-// Create a container to store the svg from our spritesheet
-const behavior = {
-	customDisplayObject: props => {
-		const instance = new PIXI.Container()
-
-		// Load immediately if our tilesheet has been loaded
-		if (tiles) {
-			loadTile({ instance, props })
-		} else {
-			// Otherwise tell the tilesheet loader we're waiting
-			waiting.push({ instance, props })
-		}
-
-		return instance
-	}
-}
-
 // Load our tilesheet
 fetch(Tilesheet)
 	.then(response => response.text())
@@ -58,4 +37,17 @@ fetch(Tilesheet)
 		waiting.forEach(loadTile)
 	})
 
-export default CustomPIXIComponent(behavior, TYPE)
+export default props => {
+	const instance = new Container()
+	instance.props = props
+
+	// Load immediately if our tilesheet has been loaded
+	if (tiles) {
+		loadTile({ instance, props })
+	} else {
+		// Otherwise tell the tilesheet loader we're waiting
+		waiting.push({ instance, props })
+	}
+
+	return instance
+}
