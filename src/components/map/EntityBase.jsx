@@ -1,8 +1,27 @@
 import SVGAnimation from './../images/SVGAnimation'
 import SVGSprite from './../images/SVGSprite'
-import { Sprite, utils } from 'pixi.js'
+import { Sprite, Graphics, utils } from 'pixi.js'
 
 const CLICK_RANGE = 2
+
+const graphics = {
+	'enemy-fast-1': () => {
+		const g = new Graphics()
+		g.lineStyle(2, 0x00FF00, 1)
+		g.beginFill(0xFF0000, 1)
+		g.drawCircle(0, 0, 100)
+		g.endFill()
+		return g
+	},
+	'enemy-fast-2': () => {
+		const g = new Graphics()
+		g.lineStyle(2, 0x00FF00, 1)
+		g.beginFill(0xFF0000, 1)
+		g.drawCircle(0, 0, 120)
+		g.endFill()
+		return g
+	}
+}
 
 class Entity {
 	constructor({x, y, image, interactive, ...props}) {
@@ -16,6 +35,8 @@ class Entity {
 			spriteProps.textures = image
 			this.sprite = SVGAnimation(spriteProps)
 			this.sprite.cacheAsBitmap = true
+		} else if (image in graphics) {
+			this.sprite = graphics[image]
 		} else if (image in utils.TextureCache) {
 			this.sprite = new Sprite(utils.TextureCache[image])
 			this.sprite.anchor.set(.5)

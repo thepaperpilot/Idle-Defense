@@ -10,12 +10,15 @@ function loadTiles({ instance, props }) {
 		const g = new SVGGraphics(tiles[texture])
 		g.x = g.y = -32
 		g.scale.x = g.scale.y = .64
+		g.cacheAsBitmap = true
+		g.alpha = 0
+		instance.addChild(g)
 		return g
 	})
 	
 	instance.interactive = false
 	instance.hitArea = instance.frames[0].getBounds()
-	instance.addChild(instance.frames[0])
+	instance.frames[0].alpha = 1
 	instance.frame = 0
 }
 
@@ -32,13 +35,13 @@ function update(delta) {
 	this.delta += delta
 	while (this.delta > this.frameDuration) {
 		this.delta -= this.frameDuration
-		this.removeChild(this.frames[this.frame])
+		this.frames[this.frame].alpha = 0
 
 		this.frame++
 		if (this.frame === this.frames.length)
 			this.frame = 0
 
-		this.addChild(this.frames[this.frame])
+		this.frames[this.frame].alpha = 1
 	}
 }
 
