@@ -23,7 +23,9 @@ class Tower extends Component {
 		return <div
 			className={`tower ${name.split(' ')[0].toLowerCase()} ${selected ? 'selected' : ''}`}
 			onClick={this.selectTower}>
-			<Image image={image} />
+			<div className="img-wrapper">
+				<Image image={image} />
+			</div>
 			<p>{name}</p>
 			{Object.keys(cost).map(c =>
 				<span key={c}

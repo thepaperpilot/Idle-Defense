@@ -1,6 +1,8 @@
-import SVGAnimation from './../images/SVGAnimation'
-import SVGSprite from './../images/SVGSprite'
-import { Sprite, Graphics, utils } from 'pixi.js'
+import { Sprite, Graphics, Container } from 'pixi.js'
+import Ring from './Ring'
+
+const TextureCache = window.PIXI.utils.TextureCache
+const AnimatedSprite = window.PIXI.extras.AnimatedSprite
 
 const CLICK_RANGE = 2
 
@@ -25,6 +27,13 @@ const graphics = {
 
 class Entity {
 	constructor({x, y, image, interactive, ...props}) {
+		this.pointerdown = this.pointerdown.bind(this)
+		this.pointertap = this.pointertap.bind(this)
+		this.click = this.click.bind(this)
+		this.update = this.update.bind(this)
+		this.select = this.select.bind(this)
+		this.deselect = this.deselect.bind(this)
+
 		const spriteProps = Object.assign({
 			interactive: interactive == null || interactive,
 			pointerdown: this.pointerdown,
@@ -32,24 +41,27 @@ class Entity {
 		}, props)
 
 		if (Array.isArray(image)) {
-			spriteProps.textures = image
-			this.sprite = SVGAnimation(spriteProps)
-			this.sprite.cacheAsBitmap = true
+			const anim = new AnimatedSprite(image.map(t => TextureCache[t]))
+			anim.gotoAndPlay(0)
+			anim.animationSpeed = .1
+			anim.anchor.set(.5)
+
+			this.sprite = new Container()
+			this.sprite.addChild(anim)
 		} else if (image in graphics) {
 			this.sprite = graphics[image]
-		} else if (image in utils.TextureCache) {
-			this.sprite = new Sprite(utils.TextureCache[image])
+		} else if (image in TextureCache) {
+			this.sprite = new Sprite(TextureCache[image])
 			this.sprite.anchor.set(.5)
 		} else {
-			spriteProps.texture = image
-			this.sprite = SVGSprite(spriteProps)
-			this.sprite.cacheAsBitmap = true
+			console.error('can\'t create sprite', image)
+			return null
 		}
 
 		Object.assign(this.sprite, spriteProps)
 		this.sprite.position.set(x, y)
 
-		this.props = props || {}
+		this.props = Object.assign(props || {}, { x, y })
 	}
 
 	pointerdown(e) {
@@ -77,11 +89,13 @@ class Entity {
 	}
 
 	select() {
-
+		console.log(this.sprite)
+		this.sprite.addChild(this.ring = new Ring())
 	}
 
 	deselect() {
-
+		if (this.ring)
+			this.sprite.removeChild(this.ring)
 	}
 }
 

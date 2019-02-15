@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container } from 'pixi.js'
-import SVGSprite from './../images/SVGSprite'
+import { Container, Sprite } from 'pixi.js'
 import Range from './Range'
+import Tower from './Tower'
+
+const TextureCache = window.PIXI.utils.TextureCache
 
 class PlacingTower extends Component {
 	constructor(props) {
@@ -18,24 +20,43 @@ class PlacingTower extends Component {
 		this.container.x = ((index % columns) + .5) * tileSize
 		this.container.y = (Math.floor(index / columns) + .5) * tileSize
 
-		this.container.addChild(this.sprite = new SVGSprite({texture: placing && placing.image}))
-		this.container.addChild(this.range = Range(placing ? placing.range : 0, canPlace ? 0x00FF00 : 0xFF0000))
+		if (index === null)
+			this.container.alpha = 0
+
+		if (placing) {
+			this.container.addChild(this.sprite = new Sprite(TextureCache[placing.image]))
+			this.sprite.anchor.set(.5)
+			this.container.addChild(this.range = Range(placing.range, canPlace ? 0x00FF00 : 0xFF0000))
+		} else {
+			this.sprite = null
+			this.range = null
+		}
 	}
 
 	componentWillReceiveProps(newProps) {
 		if(this.props.placing !== newProps.placing) {
-			this.container.removeChild(this.sprite)
-			this.container.addChild(this.sprite = new SVGSprite({texture: newProps.placing && newProps.placing.image}))
-			this.container.removeChild(this.range)
-			this.container.addChild(this.range =
-				Range(newProps.placing ? newProps.placing.range : 0, newProps.canPlace ? 0x00FF00 : 0xFF0000))
+			if (this.props.placing) {
+				this.container.removeChild(this.sprite)
+				this.container.removeChild(this.range)
+				this.sprite = null
+				this.range = null
+			} else {
+				this.container.addChild(this.sprite = new Sprite(TextureCache[newProps.placing.image]))
+				this.sprite.anchor.set(.5)
+				this.container.addChild(this.range =
+					Range(newProps.placing.range, newProps.canPlace ? 0x00FF00 : 0xFF0000))
+			}
 		}
-		this.container.alpha = newProps.placing ? 0.5 : 0
+
+		const { placing, index, columns, tileSize } = newProps
+		this.container.alpha = placing && index !== null ? 0.5 : 0
+		this.container.x = ((index % columns) + .5) * tileSize
+		this.container.y = (Math.floor(index / columns) + .5) * tileSize
 	}
 
 	place(shiftKey) {
 		if (this.props.canPlace) {
-			const {index, placing} = this.props
+			const {index, placing, tileSize, columns} = this.props
 			this.props.dispatch({
 				type: 'PURCHASE_TOWER',
 				index,
@@ -43,6 +64,12 @@ class PlacingTower extends Component {
 				cost: placing.cost,
 				shiftKey
 			})
+			const x = ((index % columns) + .5) * tileSize
+			const y = (Math.floor(index / columns) + .5) * tileSize
+			this.props.map.current.getWrappedInstance().addEntities(new Tower({
+				x, y,
+				...placing
+			}))
 		} else {
 			// TODO feedback for no purchase
 			if (!shiftKey) {

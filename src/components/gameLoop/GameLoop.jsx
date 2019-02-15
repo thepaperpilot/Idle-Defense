@@ -11,7 +11,6 @@ class GameLoop extends Component {
 	update(delta) {
 		if (!this.props.running) return
 
-		console.log(this.props.props.entities.length)
 		this.props.props.entities.forEach(e => e.update(delta, this.props.props))
 	}
 

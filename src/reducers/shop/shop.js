@@ -5,7 +5,7 @@ export const DEFAULTS = {
 		{
 			image: 'coin',
 			name: 'Basic Tower',
-			range: 150,
+			range: 200,
 			cost: {
 				mana: 10,
 				bones: 1
@@ -14,7 +14,7 @@ export const DEFAULTS = {
 		{
 			image: 'diamond',
 			name: 'Advanced Tower',
-			range: 200,
+			range: 250,
 			cost: {
 				mana: 100,
 				bones: 1

@@ -5,7 +5,6 @@ import GameLoop from './../gameLoop/GameLoop'
 import Entity from './EntityBase'
 import SpecialEntity from './SpecialEntity'
 import Tower from './../towers/Tower'
-import Enemy from './../enemies/Enemy'
 
 class Map extends Component {
 	constructor(props) {
@@ -48,19 +47,10 @@ class Map extends Component {
 			return container
 		})
 
-		let entities = []
-
-		entities = [...this.props.entities.map(entity => {
-			switch (entity.type) {
-				case 'tower': return new Tower(entity)
-				case 'enemy': return new Enemy(entity)
-				default: return null
-			}
-		})]
-
-		entities = [...entities, ...this.props.specialEntities.map(entity => {
+		const entities = [...this.props.towers.map(entity => new Tower(entity)),
+			...this.props.specialEntities.map(entity => {
 			switch (entity.key) {
-				case 'base': return new SpecialEntity({...entity, image: 'flag'})
+				case 'base': return new SpecialEntity({...entity, image: 'flagRed_up'})
 				case 'spawn': return new SpecialEntity({...entity, image: 'discRed'})
 				default: return null
 			}
@@ -77,20 +67,32 @@ class Map extends Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		const oldEntity = this.state.entities.find(e => e.id === this.props.selected)
-		if (oldEntity)
-			oldEntity.deselect()
-
-		const newEntity = this.state.entities.find(e => e.id === newProps.selected)
-		if (newEntity)
-			newEntity.select()
+		if (this.props.selected !== newProps.selected) {
+			if (this.state.entities[this.props.selectedIndex])
+				this.state.entities[this.props.selectedIndex].deselect()
+			if (this.state.entities[newProps.selectedIndex])
+				this.state.entities[newProps.selectedIndex].select()
+		}
 	}
 
 	addEntities(...entities) {
-		entities.forEach(entity =>
+		entities.map(e => {
+			e.props.dispatch = this.props.dispatch
+			Object.defineProperty(e.props, 'index', {
+				get: () => this.state.entities.indexOf(e),
+				configurable: true
+			})
+			return e
+		}).forEach(entity =>
 			this.props.stage.addChild(entity.sprite))
+
 		this.setState({
 			entities: [...this.state.entities, ...entities]
+		})
+
+		this.props.dispatch({
+			type: 'ADD_ENTITIES',
+			entities: entities.map(e => e.props)
 		})
 	}
 
@@ -101,6 +103,11 @@ class Map extends Component {
 			this.setState({
 				entities: [...this.state.entities.slice(0, index),
 				...this.state.entities.slice(index + 1)]
+			})
+
+			this.props.dispatch({
+				type: 'REMOVE_ENTITY',
+				index
 			})
 		}
 	}
@@ -136,12 +143,13 @@ function mapStateToProps(state, props) {
 		width: map.width,
 		height: map.height,
 		tiles: map.tiles,
-		entities: map.entities,
+		towers: map.towers,
 		path: map.path,
-		selected: map.isSelecting ? map.selected : -1,
+		selected: state.entities.entities[state.entities.selected],
+		selectedIndex: state.entities.selected,
 		baseTiles: state.constants.baseTiles,
 		tileSize: state.constants.tileSize
 	}
 }
 
-export default connect(mapStateToProps)(Map)
+export default connect(mapStateToProps, null, null, { withRef: true })(Map)

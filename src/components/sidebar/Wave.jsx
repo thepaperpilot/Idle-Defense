@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import Image from './../images/Image'
 import './wave.css'
@@ -70,5 +69,5 @@ function collectSource(connect, monitor) {
 	}
 }
 
-export default DropTarget('wave', waveTarget, collectTarget)
-	(DragSource('wave', waveSource, collectSource)(Wave))
+export default DropTarget('wave', waveTarget, collectTarget)(
+	DragSource('wave', waveSource, collectSource)(Wave))

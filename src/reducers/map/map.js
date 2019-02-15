@@ -14,8 +14,6 @@ export const DEFAULTS = {
 	"height": 9,
 	"spawn": 0,
 	"base": 159,
-	"selected": null,
-	"isSelecting": false,
 	"wave": 0,
 	"tiles": {
 		"0": {
@@ -109,7 +107,7 @@ export const DEFAULTS = {
 			"hasEntity": true
 		}
 	},
-	"entities": [],
+	"towers": [],
 	"waves": [
 		{
 			"enemy": "normal",
@@ -131,26 +129,13 @@ export const DEFAULTS = {
 export const EMPTY = {
 	width: 1,
 	height: 1,
-	selected: null,
-	isSelecting: false,
 	tiles: {},
-	entities: [],
+	towers: [],
 	waves: []
 }
 
 function loadMap(state, action) {
 	return util.updateObject(EMPTY, action.map)
-}
-
-function inspect(state, action) {
-	return util.updateObject(state, {
-		selected: action.selected,
-		isSelecting: true
-	})
-}
-
-function closeInspect(state, action) {
-	return util.updateObject(state, { isSelecting: false })
 }
 
 function placeTower(state, action) {
@@ -163,20 +148,13 @@ function placeTower(state, action) {
 	// Add our tower entity
 	const x = ((action.index % state.width) + .5) * constants.tileSize
 	const y = (Math.floor(action.index / state.width) + .5) * constants.tileSize
-	const entities = [...state.entities, {
+	const towers = [...state.towers, {
 		type: 'tower',
 		x, y,
 		...action.placing
 	}]
 
-	return util.updateObject(state, { tiles, entities })
-}
-
-function selectEntity(state, action) {
-	return util.updateObject(state, {
-		isSelecting: action.index != null,
-		selected: action.index == null ? state.selected : action.index
-	})
+	return util.updateObject(state, { tiles, towers })
 }
 
 function addTile(state, action) {
@@ -317,18 +295,6 @@ function setPath(state, action) {
 	return util.updateObject(state, { path: action.path })
 }
 
-function updateEntity(state, action) {
-	const entities = state.entities.slice()
-	entities[action.index] = util.updateObject(entities[action.index], action.entity)
-	return util.updateObject(state, { entities })
-}
-
-function addEntity(state, action) {
-	return util.updateObject(state, {
-		entities: [...state.entities, action.entity]
-	})
-}
-
 function nextWave(state, action) {
 	return util.updateObject(state, {
 		wave: state.wave + 1 >= state.waves.length ? 0 : state.wave + 1
@@ -337,10 +303,7 @@ function nextWave(state, action) {
 
 export default util.createReducer(DEFAULTS, {
 	'LOAD_MAP': loadMap,
-	'INSPECT': inspect,
-	'CLOSE_INSPECT': closeInspect,
 	'PURCHASE_TOWER': placeTower,
-	'SELECT_ENTITY': selectEntity,
 	'PLACE_TILE': addTile,
 	'TOGGLE_WALKABLE': toggleWalkable,
 	'CLEAR_TILE': clearTile,
@@ -352,7 +315,5 @@ export default util.createReducer(DEFAULTS, {
 	'MOVE_WAVE': moveWave,
 	'DELETE_WAVE': deleteWave,
 	'SET_PATH': setPath,
-	'UPDATE_ENTITY': updateEntity,
-	'ADD_ENTITY': addEntity,
 	'NEXT_WAVE': nextWave
 })

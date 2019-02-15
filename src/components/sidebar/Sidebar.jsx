@@ -33,7 +33,7 @@ class Sidebar extends Component {
 
 function mapStateToProps(state) {
 	return {
-		selected: state.map.entities[state.map.selected]
+		selected: state.entities.entities[state.entities.selected]
 	}
 }
 

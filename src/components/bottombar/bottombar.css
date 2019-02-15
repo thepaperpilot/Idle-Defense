@@ -33,7 +33,7 @@
 	border: solid rgb(0, 255, 255) 2px;
 	color: white;
 	box-sizing: border-box;
-	padding: 4px;
+	padding: 2px 8px;
 	display: inline-flex;
     flex-direction: column;
     align-items: center;
@@ -41,9 +41,15 @@
     flex-basis: 0;
 }
 
-.bottombar .tower > img {
+.img-wrapper {
 	margin: 4px;
     margin-bottom: 8px;
+    min-height: 0;
+    text-align: center;
+}
+
+.img-wrapper > img {
+	height: 100%;
 }
 
 .bottombar .tower.basic svg {

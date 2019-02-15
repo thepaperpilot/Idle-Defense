@@ -51,6 +51,10 @@ class Stage extends Component {
 	componentDidMount() {
 		this.screen.current.appendChild(this.renderer.view)
 		this.frame = requestAnimationFrame(this.update)
+
+		const { clientWidth, clientHeight } = this.screen.current
+		this.onResize(clientWidth, clientHeight)
+		this.viewport.fitWorld()
 	}
 
 	componentWillUnmount() {
@@ -72,7 +76,6 @@ class Stage extends Component {
 	}
 
 	render() {
-		const {worldWidth, worldHeight, tileSize} = this.props
 		return <div className="stage" ref={this.screen}>
 			<div className="inset" />
 			<ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />

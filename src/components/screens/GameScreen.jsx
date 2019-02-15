@@ -18,6 +18,7 @@ class GameScreen extends Component {
 		}
 
 		this.placing = React.createRef()
+		this.map = React.createRef()
 
 		this.placeTower = this.placeTower.bind(this)
 		this.onMouseOver = this.onMouseOver.bind(this)
@@ -46,10 +47,11 @@ class GameScreen extends Component {
 					onMouseOver={this.onMouseOver}
 					onMouseOut={this.onMouseOut}
 					placeTower={this.placeTower}
-					running={true}>
+					running={true}
+					ref={this.map} >
 					<WaveSender />
 				</Map>
-				<PlacingTower ref={this.placing} index={this.state.index} />
+				<PlacingTower ref={this.placing} index={this.state.index} map={this.map} />
 			</Stage>
 			<Sidebar />
 			<Bottombar />
@@ -60,7 +62,7 @@ class GameScreen extends Component {
 
 function mapStateToProps(state) {
 	return {
-		isSelecting: state.map.isSelecting
+		isSelecting: state.entities.isSelecting
 	}
 }
 

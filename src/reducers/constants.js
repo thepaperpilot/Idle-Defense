@@ -1,5 +1,5 @@
 export default {
-	tileSize: 50,
+	tileSize: 100,
 	initialDelay: 20000,
 	waveDelay: 50000,
 	enemyDelay: 2000,
@@ -23,13 +23,13 @@ export default {
 	enemies: {
 		normal: {
 			health: 5,
-			speed: 1.5,
-			image: ['enemy-normal-1', 'enemy-normal-2']
+			speed: 1,
+			image: ['playerBlue_walk1', 'playerBlue_walk2']
 		},
 		fast: {
 			health: 3,
-			speed: 2.5,
-			image: ['enemy-fast-1', 'enemy-fast-2']
+			speed: 1.5,
+			image: ['playerRed_walk1', 'playerRed_walk2']
 		}
 	}
 }

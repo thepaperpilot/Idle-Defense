@@ -1,8 +1,8 @@
 .sidebar {
-	flex-basis: 0;
 	background: black;
 	margin-left: -1px;
 	flex-basis: 20%;
+	min-width: 20%;
 	border: solid 1px rgb(0, 255, 255);
 	z-index: 100;
 	height: calc(80% - 6px);

@@ -45,8 +45,8 @@ class EditorBottombar extends Component {
 					<div className="tiles">
 						<Tile image="discRed"
 							selectTile={this.selectTile('spawn', 'discRed')}>Spawn</Tile>
-						<Tile image="flag"
-							selectTile={this.selectTile('base', 'flag')}>Base</Tile>
+						<Tile image="flagRed_up"
+							selectTile={this.selectTile('base', 'flagRed_up')}>Base</Tile>
 						<Tile image="walkable-1">Path</Tile>
 					</div>
 					<hr />

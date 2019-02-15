@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container } from 'pixi.js'
-import SVGSprite from './../images/SVGSprite'
+import { Container, Sprite } from 'pixi.js'
+
+const TextureCache = window.PIXI.utils.TextureCache
 
 class PlacingTile extends Component {
 	constructor(props) {
@@ -17,7 +18,7 @@ class PlacingTile extends Component {
 		this.container.x = ((index % columns) + .5) * tileSize
 		this.container.y = (Math.floor(index / columns) + .5) * tileSize
 
-		this.container.addChild(this.sprite = new SVGSprite({texture: image.image || image || 'cross'}))
+		this.container.addChild(this.sprite = new Sprite(TextureCache[image.image || image || 'cross']))
 	}
 
 	componentWillReceiveProps(newProps) {
@@ -25,7 +26,7 @@ class PlacingTile extends Component {
 		
 		if (this.props.image !== newProps.image) {
 			this.container.removeChild(this.sprite)
-			this.container.addChild(this.sprite = new SVGSprite({texture: image.image || image || 'cross'}))
+			this.container.addChild(this.sprite = new Sprite(TextureCache[image.image || image || 'cross']))
 		}
 		this.container.alpha = image == null ? 0 : 0.5
 	}
