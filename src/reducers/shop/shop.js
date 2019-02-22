@@ -1,11 +1,15 @@
 const util = require('./../util')
 
+// Fire interval is based on # of ticks - there are 60 ticks per second
 export const DEFAULTS = {
 	towers: [
 		{
 			image: 'coin',
 			name: 'Basic Tower',
-			range: 200,
+			range: 210,
+			rotSpeed: Math.PI / 50,
+			fireInterval: 45,
+			damage: 2,
 			cost: {
 				mana: 10,
 				bones: 1
@@ -14,7 +18,10 @@ export const DEFAULTS = {
 		{
 			image: 'diamond',
 			name: 'Advanced Tower',
-			range: 250,
+			range: 240,
+			rotSpeed: Math.PI / 100,
+			fireInterval: 60,
+			damage: 3,
 			cost: {
 				mana: 100,
 				bones: 1

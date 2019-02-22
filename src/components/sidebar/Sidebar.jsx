@@ -22,8 +22,17 @@ class Sidebar extends Component {
 					</span>
 				</div>
 				<ScrollArea speed={0.8} vertical={true} horizontal={false}>
-					<div className="sidebar-card">
-						Range: {selected.range}
+					<div className="sidebar-card flex-horiz">
+						<div>
+							Range:<br/>
+							Damage:<br/>
+							Fire Rate:
+						</div>
+						<div>
+							{selected.range}<br/>
+							{selected.damage}<br/>
+							{Math.round(100 * 60 / selected.fireInterval) / 100}/s
+						</div>
 					</div>
 				</ScrollArea>
 			</div>}
@@ -33,7 +42,7 @@ class Sidebar extends Component {
 
 function mapStateToProps(state) {
 	return {
-		selected: state.entities.entities[state.entities.selected]
+		selected: state.entities.selected
 	}
 }
 

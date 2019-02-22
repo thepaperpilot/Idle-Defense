@@ -1,6 +1,7 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Enemy from './../enemies/Enemy'
+import VictoryModal from './../modals/Victory'
 
 class WaveSender extends Component {
 	constructor(props) {
@@ -19,16 +20,27 @@ class WaveSender extends Component {
 		this.sent = 0
 	}
 
+	componentWillReceiveProps(newProps) {
+		if (newProps.enemiesLeft === 0 && newProps.wave && this.sent === newProps.wave.amount) {
+			this.props.dispatch({
+				type: 'NEXT_WAVE'
+			})
+			this.timeout = setTimeout(this.sendEnemy, newProps.wave.delay)
+			this.sent = 0
+		}
+	}
+
 	sendEnemy() {
 		const {
 			enemies,
 			wave,
-			enemyDelay,
-			waveDelay,
 			path,
 			width,
 			tileSize
 		} = this.props
+
+		if (!wave)
+			return
 
 		const enemy = Object.assign({
 			x: NaN,
@@ -37,24 +49,25 @@ class WaveSender extends Component {
 			path,
 			tileSize,
 			type: wave.enemy
-		}, enemies[wave.enemy])
+		}, enemies[wave.enemy], wave.modifiers)
 
 		this.props.addEntities(new Enemy(enemy))
 
 		this.sent++
 
-		if (this.sent === wave.amount) {
+		if (this.sent !== wave.amount) {
+			this.timeout = setTimeout(this.sendEnemy, wave.delay)
+		} else if (wave.boundToNextWave) {
 			this.props.dispatch({
 				type: 'NEXT_WAVE'
 			})
-			this.timeout = setTimeout(this.sendEnemy, wave.boundToNextWave ? enemyDelay : waveDelay)
-		} else {
-			this.timeout = setTimeout(this.sendEnemy, enemyDelay)
+			this.timeout = setTimeout(this.sendEnemy, wave.delay)
+			this.sent = 0
 		}
 	}
 
 	render() {
-		return null
+		return <VictoryModal open={!this.props.wave} />
 	}
 }
 
@@ -66,10 +79,9 @@ function mapStateToProps(state, props) {
 		path,
 		width,
 		tileSize: state.constants.tileSize,
-		initialDelay: state.constants.initialDelay,
-		waveDelay: state.constants.waveDelay,
-		enemyDelay: state.constants.enemyDelay,
-		enemies: state.constants.enemies
+		initialDelay: state.constants.delay,
+		enemies: state.constants.enemies,
+		enemiesLeft: state.entities.enemiesLeft
 	}
 }
 

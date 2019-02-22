@@ -1,29 +1,10 @@
-import { Sprite, Graphics, Container } from 'pixi.js'
+import { Sprite, Container } from 'pixi.js'
 import Ring from './Ring'
 
 const TextureCache = window.PIXI.utils.TextureCache
 const AnimatedSprite = window.PIXI.extras.AnimatedSprite
 
 const CLICK_RANGE = 2
-
-const graphics = {
-	'enemy-fast-1': () => {
-		const g = new Graphics()
-		g.lineStyle(2, 0x00FF00, 1)
-		g.beginFill(0xFF0000, 1)
-		g.drawCircle(0, 0, 100)
-		g.endFill()
-		return g
-	},
-	'enemy-fast-2': () => {
-		const g = new Graphics()
-		g.lineStyle(2, 0x00FF00, 1)
-		g.beginFill(0xFF0000, 1)
-		g.drawCircle(0, 0, 120)
-		g.endFill()
-		return g
-	}
-}
 
 class Entity {
 	constructor({x, y, image, interactive, ...props}) {
@@ -48,8 +29,6 @@ class Entity {
 
 			this.sprite = new Container()
 			this.sprite.addChild(anim)
-		} else if (image in graphics) {
-			this.sprite = graphics[image]
 		} else if (image in TextureCache) {
 			this.sprite = new Sprite(TextureCache[image])
 			this.sprite.anchor.set(.5)
@@ -61,7 +40,7 @@ class Entity {
 		Object.assign(this.sprite, spriteProps)
 		this.sprite.position.set(x, y)
 
-		this.props = Object.assign(props || {}, { x, y })
+		this.props = Object.assign({ type: 'Entity' }, props, { x, y })
 	}
 
 	pointerdown(e) {
@@ -79,7 +58,7 @@ class Entity {
 	click() {
 		this.props.dispatch({
 			type: 'SELECT_ENTITY',
-			index: this.props.index
+			id: this.props.id
 		})
 	}
 
@@ -89,7 +68,6 @@ class Entity {
 	}
 
 	select() {
-		console.log(this.sprite)
 		this.sprite.addChild(this.ring = new Ring())
 	}
 

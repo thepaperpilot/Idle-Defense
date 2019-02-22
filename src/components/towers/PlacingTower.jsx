@@ -46,6 +46,10 @@ class PlacingTower extends Component {
 				this.container.addChild(this.range =
 					Range(newProps.placing.range, newProps.canPlace ? 0x00FF00 : 0xFF0000))
 			}
+		} else if (this.props.placing && this.props.canPlace !== newProps.canPlace) {
+			this.container.removeChild(this.range)
+			this.container.addChild(this.range =
+					Range(newProps.placing.range, newProps.canPlace ? 0x00FF00 : 0xFF0000))
 		}
 
 		const { placing, index, columns, tileSize } = newProps
@@ -78,10 +82,7 @@ class PlacingTower extends Component {
 					tower: null
 				})
 			}
-			this.props.dispatch({
-				type: 'SELECT_ENTITY',
-				index: null
-			})
+			this.props.dispatch({ type: 'SELECT_ENTITY' })
 		}
 	}
 

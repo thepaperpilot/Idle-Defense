@@ -76,3 +76,12 @@
 	margin: 4px 0;
     width: 100%;
 }
+
+.modal-header {
+	color: white;
+	font-size: xx-large;
+	display: block;
+	margin: 8px;
+	text-align: center;
+	min-width: 10em;
+}

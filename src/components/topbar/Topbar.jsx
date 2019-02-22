@@ -6,10 +6,13 @@ import './topbar.css'
 
 class Topbar extends Component {
 	render() {
-		const {wallet} = this.props
+		const {enabled, wallet, lives} = this.props
 		return <div className="topbar">
-			{Object.keys(wallet).map(c =>
-				<Currency name={c} amount={wallet[c]} key={c} />)}
+			{enabled ? <div>
+				<Currency name="lives" amount={lives} />
+				{Object.keys(wallet).map(c =>
+					<Currency name={c} amount={wallet[c]} key={c} />)}
+			</div> : null}
 			<div className="flex-grow" />
 			<Link to="/editor"><img src="images/toolBrush.png" alt="editor" title="editor" /></Link>
 			<Link to="/"><img src="images/home.png" alt="home" title="home" /></Link>
@@ -18,8 +21,12 @@ class Topbar extends Component {
 }
 
 function mapStateToProps(state) {
+	if (!state.map)
+		return { enabled: false }
 	return {
-		wallet: state.wallet
+		enabled: true,
+		wallet: state.wallet,
+		lives: state.map.lives
 	}
 }
 

@@ -63,3 +63,11 @@
 .sidebar .scrollarea {
 	height: 100%;
 }
+
+.flex-horiz {
+	display: flex;
+}
+
+.flex-horiz > * {
+	flex: 1;
+}

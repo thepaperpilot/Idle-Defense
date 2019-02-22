@@ -6,6 +6,7 @@ class GameLoop extends Component {
 		super(props)
 
 		this.update = this.update.bind(this)
+		this.tooManyFrames = 0
 	}
 
 	update(delta) {

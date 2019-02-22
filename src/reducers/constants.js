@@ -1,8 +1,6 @@
 export default {
 	tileSize: 100,
-	initialDelay: 20000,
-	waveDelay: 50000,
-	enemyDelay: 2000,
+	delay: 25000,
 	specialEntities: ['base', 'spawn'],
 	baseTiles: {
 		default: {
@@ -24,12 +22,12 @@ export default {
 		normal: {
 			health: 5,
 			speed: 1,
-			image: ['playerBlue_walk1', 'playerBlue_walk2']
+			image: ['playerRed_walk1', 'playerRed_walk2']
 		},
 		fast: {
 			health: 3,
 			speed: 1.5,
-			image: ['playerRed_walk1', 'playerRed_walk2']
+			image: ['playerBlue_walk1', 'playerBlue_walk2']
 		}
 	}
 }

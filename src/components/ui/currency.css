@@ -3,6 +3,10 @@
     display: inline-block;
 }
 
+.currency-lives {
+	color: red;
+}
+
 .currency-mana {
 	color: lightblue;
 }

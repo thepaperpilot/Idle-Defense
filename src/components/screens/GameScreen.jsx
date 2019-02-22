@@ -7,6 +7,7 @@ import Bottombar from './../bottombar/Bottombar'
 import PlacingTower from './../towers/PlacingTower'
 import RouteFinder from './../map/RouteFinder'
 import WaveSender from './../map/WaveSender'
+import GameOverModal from './../modals/GameOver'
 import './gamescreen.css'
 
 class GameScreen extends Component {
@@ -47,12 +48,13 @@ class GameScreen extends Component {
 					onMouseOver={this.onMouseOver}
 					onMouseOut={this.onMouseOut}
 					placeTower={this.placeTower}
-					running={true}
+					running={this.props.isAlive}
 					ref={this.map} >
 					<WaveSender />
 				</Map>
 				<PlacingTower ref={this.placing} index={this.state.index} map={this.map} />
 			</Stage>
+			<GameOverModal open={!this.props.isAlive} />
 			<Sidebar />
 			<Bottombar />
 			<RouteFinder />
@@ -62,7 +64,8 @@ class GameScreen extends Component {
 
 function mapStateToProps(state) {
 	return {
-		isSelecting: state.entities.isSelecting
+		isSelecting: state.entities.isSelecting,
+		isAlive: state.map.lives > 0
 	}
 }
 

@@ -110,7 +110,7 @@ class Enemy extends EntityBase {
 		// Easter eggs!
 		if (Math.random() <= .01)
 			this.sprite.rotation = 3 * Math.PI / 2
-		if (Math.random() <= .1)
+		if (Math.random() <= .025)
 			this.sprite.rotation = Math.PI
 
 		this.position = 0
@@ -124,6 +124,12 @@ class Enemy extends EntityBase {
 	update(delta, {removeEntity}) {
 		super.update(delta)
 
+		if (this.props.health <= 0) {
+			// TODO give gold
+			removeEntity(this)
+			return
+		}
+
 		this.interpolation += this.props.speed * delta
 		while (this.interpolation > 100) {
 			this.position++
@@ -132,7 +138,7 @@ class Enemy extends EntityBase {
 			this.target = this.getCoords(this.props.path[this.position + 1])
 		}
 		if (this.position >= this.props.path.length - 1) {
-			// TODO deal damage
+			this.props.dispatch({ type: 'LOSE_LIFE' })
 			removeEntity(this)
 		}
 
@@ -154,6 +160,10 @@ class Enemy extends EntityBase {
 			x: index % this.props.width + .5,
 			y: Math.floor(index / this.props.width) + .5
 		}
+	}
+
+	damage(damage) {
+		this.props.health -= damage
 	}
 }
 

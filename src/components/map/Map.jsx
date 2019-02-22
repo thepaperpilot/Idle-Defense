@@ -6,6 +6,8 @@ import Entity from './EntityBase'
 import SpecialEntity from './SpecialEntity'
 import Tower from './../towers/Tower'
 
+let entityID = 0
+
 class Map extends Component {
 	constructor(props) {
 		super(props)
@@ -68,20 +70,20 @@ class Map extends Component {
 
 	componentWillReceiveProps(newProps) {
 		if (this.props.selected !== newProps.selected) {
-			if (this.state.entities[this.props.selectedIndex])
-				this.state.entities[this.props.selectedIndex].deselect()
-			if (this.state.entities[newProps.selectedIndex])
-				this.state.entities[newProps.selectedIndex].select()
+			const oldEntity = this.props.selected &&
+				this.state.entities.find(e => e.props.id === this.props.selected.id)
+			if (oldEntity) oldEntity.deselect()
+
+			const newEntity = newProps.selected &&
+				this.state.entities.find(e => e.props.id === newProps.selected.id)
+			if (newEntity) newEntity.select()
 		}
 	}
 
 	addEntities(...entities) {
 		entities.map(e => {
 			e.props.dispatch = this.props.dispatch
-			Object.defineProperty(e.props, 'index', {
-				get: () => this.state.entities.indexOf(e),
-				configurable: true
-			})
+			e.props.id = entityID++
 			return e
 		}).forEach(entity =>
 			this.props.stage.addChild(entity.sprite))
@@ -98,18 +100,14 @@ class Map extends Component {
 
 	removeEntity(entity) {
 		this.props.stage.removeChild(entity.sprite)
-		const index = this.state.entities.indexOf(entity)
-		if (index >= 0) {
-			this.setState({
-				entities: [...this.state.entities.slice(0, index),
-				...this.state.entities.slice(index + 1)]
-			})
+		this.setState({
+			entities: this.state.entities.filter(e => e !== entity)
+		})
 
-			this.props.dispatch({
-				type: 'REMOVE_ENTITY',
-				index
-			})
-		}
+		this.props.dispatch({
+			type: 'REMOVE_ENTITY',
+			id: entity.props.id
+		})
 	}
 
 	render() {
@@ -145,8 +143,7 @@ function mapStateToProps(state, props) {
 		tiles: map.tiles,
 		towers: map.towers,
 		path: map.path,
-		selected: state.entities.entities[state.entities.selected],
-		selectedIndex: state.entities.selected,
+		selected: state.entities.selected,
 		baseTiles: state.constants.baseTiles,
 		tileSize: state.constants.tileSize
 	}

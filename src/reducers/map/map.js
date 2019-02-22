@@ -111,27 +111,35 @@ export const DEFAULTS = {
 	"waves": [
 		{
 			"enemy": "normal",
-			"amount": 14,
-			"boundToNextWave": true,
-			"id": 0
+			"amount": 1,
+			"delay": 2500,
+			"id": 0,
+			"modifiers": {
+				"speed": 5
+			}
 		},
 		{
-			/* the fast enemy lags the whole page down like 100x */
-			"enemy": "fast",
-			"amount": 8,
-			"boundToNextWave": false,
+			"enemy": "normal",
+			"amount": 5,
+			"delay": 2500,
 			"id": 1
 		}
 	],
-	"path": []
+	"path": [],
+	"lives": 10
 }
 
 export const EMPTY = {
 	width: 1,
 	height: 1,
+	spawn: 0,
+	base: 0,
+	wave: 0,
 	tiles: {},
 	towers: [],
-	waves: []
+	waves: [],
+	path: [],
+	lives: 10
 }
 
 function loadMap(state, action) {
@@ -149,7 +157,6 @@ function placeTower(state, action) {
 	const x = ((action.index % state.width) + .5) * constants.tileSize
 	const y = (Math.floor(action.index / state.width) + .5) * constants.tileSize
 	const towers = [...state.towers, {
-		type: 'tower',
 		x, y,
 		...action.placing
 	}]
@@ -297,7 +304,13 @@ function setPath(state, action) {
 
 function nextWave(state, action) {
 	return util.updateObject(state, {
-		wave: state.wave + 1 >= state.waves.length ? 0 : state.wave + 1
+		wave: state.wave + 1
+	})
+}
+
+function loseLife(state, action) {
+	return util.updateObject(state, {
+		lives: state.lives - 1
 	})
 }
 
@@ -315,5 +328,6 @@ export default util.createReducer(DEFAULTS, {
 	'MOVE_WAVE': moveWave,
 	'DELETE_WAVE': deleteWave,
 	'SET_PATH': setPath,
-	'NEXT_WAVE': nextWave
+	'NEXT_WAVE': nextWave,
+	'LOSE_LIFE': loseLife
 })

@@ -4,6 +4,7 @@ export const DEFAULTS = {
 	entities: [],
 	selected: null,
 	isSelecting: false,
+	enemiesLeft: 0
 }
 
 function loadMap() {
@@ -11,25 +12,29 @@ function loadMap() {
 }
 
 function selectEntity(state, action) {
+	const selected = state.entities.find(e => e.id === action.id)
 	return util.updateObject(state, {
-		isSelecting: action.index !== null,
-		selected: action.index
+		isSelecting: action.id != null,
+		selected
 	})
 }
 
 function addEntities(state, action) {
 	return util.updateObject(state, {
-		entities: [...state.entities, ...action.entities]
+		entities: [...state.entities, ...action.entities],
+		enemiesLeft: state.enemiesLeft + action.entities.reduce((acc, curr) => curr.type.includes('Enemy') ? acc + 1 : acc, 0)
 	})
 }
 
 function removeEntity(state, action) {
-	return util.updateObject(state, {
-		entities: [...state.entities.slice(0, action.index),
-			...state.entities.slice(action.index + 1)],
-		selected: action.index === state.selected ? null : action.index < state.selected ? state.selected - 1 : state.selected,
-		isSelecting: action.index === state.selected ? false : state.isSelecting
-	})
+	const entities = state.entities.filter(e => e.id !== action.id)
+	const selected = state.selected && entities.find(e => e.id === state.selected.id)
+	const isSelecting = selected != null
+	const enemiesLeft = state.entities.find(e => e.id === action.id).type.includes('Enemy')
+		? state.enemiesLeft - 1 
+		: state.enemiesLeft
+
+	return util.updateObject(state, { entities, selected, isSelecting, enemiesLeft })
 }
 
 export default util.createReducer(DEFAULTS, {
