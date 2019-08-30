@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactResizeDetector from 'react-resize-detector'
 import { Container, autoDetectRenderer } from 'pixi.js'
-import Viewport from 'pixi-viewport'
+import { Viewport } from 'pixi-viewport'
 import './stage.css'
 
 class Stage extends Component {
@@ -42,8 +42,9 @@ class Stage extends Component {
 			})
 			v.down(e)
 		})
+		console.log(v)
 		v.on('rightup', v.up)
-		v.on('rightclick', () => v.plugins.drag.last = false)
+		v.on('rightclick', () => v.plugins.get('drag').last = false)
 
 		this.stage.addChild(this.viewport)
 	}

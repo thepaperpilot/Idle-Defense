@@ -1,21 +1,21 @@
 import Entity from './../map/EntityBase'
-import { Container, Sprite } from 'pixi.js'
+import * as PIXI from 'pixi.js'
 import Range from './Range'
 import Bullet from './Bullet'
 
-const TextureCache = window.PIXI.utils.TextureCache
+const TextureCache = PIXI.utils.TextureCache
 
 class Tower extends Entity {
 	constructor(props) {
 		super(props)
 		this.props.type = "Tower"
 
-		const container = new Container()
+		const container = new PIXI.Container()
 		container.addChild(this.sprite)
 		const {x, y} = this.sprite.position
 		container.position.set(x, y)
 
-		container.addChild(this.barrel = new Sprite(TextureCache['plantDark_1']))
+		container.addChild(this.barrel = new PIXI.Sprite(TextureCache['plantDark_1']))
 		this.barrel.anchor.set(.5, .8)
 		this.barrel.position.set(2, 0)
 		

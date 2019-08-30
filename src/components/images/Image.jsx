@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import * as PIXI from 'pixi.js'
 
-const TextureCache = window.PIXI.utils.TextureCache
+const TextureCache = PIXI.utils.TextureCache
 
 class Image extends Component {
 	render() {

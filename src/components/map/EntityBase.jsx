@@ -1,8 +1,7 @@
-import { Sprite, Container } from 'pixi.js'
+import * as PIXI from 'pixi.js'
 import Ring from './Ring'
 
-const TextureCache = window.PIXI.utils.TextureCache
-const AnimatedSprite = window.PIXI.extras.AnimatedSprite
+const TextureCache = PIXI.utils.TextureCache
 
 const CLICK_RANGE = 2
 
@@ -22,15 +21,15 @@ class Entity {
 		}, props)
 
 		if (Array.isArray(image)) {
-			const anim = new AnimatedSprite(image.map(t => TextureCache[t]))
+			const anim = new PIXI.AnimatedSprite(image.map(t => TextureCache[t]))
 			anim.gotoAndPlay(0)
 			anim.animationSpeed = .1
 			anim.anchor.set(.5)
 
-			this.sprite = new Container()
+			this.sprite = new PIXI.Container()
 			this.sprite.addChild(anim)
 		} else if (image in TextureCache) {
-			this.sprite = new Sprite(TextureCache[image])
+			this.sprite = new PIXI.Sprite(TextureCache[image])
 			this.sprite.anchor.set(.5)
 		} else {
 			console.error('can\'t create sprite', image)

@@ -1,8 +1,8 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container, Sprite } from 'pixi.js'
+import * as PIXI from 'pixi.js'
 
-const TextureCache = window.PIXI.utils.TextureCache
+const TextureCache = PIXI.utils.TextureCache
 
 class PlacingTile extends Component {
 	constructor(props) {
@@ -14,11 +14,11 @@ class PlacingTile extends Component {
 	componentDidMount() {
 		const {image, index, columns, tileSize} = this.props
 
-		this.props.stage.addChild(this.container = new Container())
+		this.props.stage.addChild(this.container = new PIXI.Container())
 		this.container.x = ((index % columns) + .5) * tileSize
 		this.container.y = (Math.floor(index / columns) + .5) * tileSize
 
-		this.container.addChild(this.sprite = new Sprite(TextureCache[image.image || image || 'cross']))
+		this.container.addChild(this.sprite = new PIXI.Sprite(TextureCache[image.image || image || 'cross']))
 	}
 
 	componentWillReceiveProps(newProps) {
@@ -26,7 +26,7 @@ class PlacingTile extends Component {
 		
 		if (this.props.image !== newProps.image) {
 			this.container.removeChild(this.sprite)
-			this.container.addChild(this.sprite = new Sprite(TextureCache[image.image || image || 'cross']))
+			this.container.addChild(this.sprite = new PIXI.Sprite(TextureCache[image.image || image || 'cross']))
 		}
 		this.container.alpha = image == null ? 0 : 0.5
 	}

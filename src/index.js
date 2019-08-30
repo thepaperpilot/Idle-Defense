@@ -5,11 +5,12 @@ import registerServiceWorker from './registerServiceWorker'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers/index'
-import { loader } from 'pixi.js'
+import { Loader } from 'pixi.js'
 import './index.css'
 
 //window.PIXI.SCALE_MODES.DEFAULT = window.PIXI.SCALE_MODES.NEAREST
 
+const loader = new Loader()
 loader
 	.add('tile', 'images/tile.png')
 	.add('cross', 'images/cross.png')

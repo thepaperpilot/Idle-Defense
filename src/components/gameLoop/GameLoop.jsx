@@ -16,11 +16,11 @@ class GameLoop extends Component {
 	}
 
 	componentDidMount() {
-		PIXI.ticker.shared.add(this.update, this)
+		PIXI.Ticker.shared.add(this.update, this)
 	}
 
 	componentWillUnmount() {
-		PIXI.ticker.shared.remove(this.update, this)
+		PIXI.Ticker.shared.remove(this.update, this)
 	}
 
 	render() {

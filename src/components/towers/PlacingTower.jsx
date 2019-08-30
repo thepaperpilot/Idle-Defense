@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container, Sprite } from 'pixi.js'
+import * as PIXI from 'pixi.js'
 import Range from './Range'
 import Tower from './Tower'
 
-const TextureCache = window.PIXI.utils.TextureCache
+const TextureCache = PIXI.utils.TextureCache
 
 class PlacingTower extends Component {
 	constructor(props) {
@@ -16,7 +16,7 @@ class PlacingTower extends Component {
 	componentDidMount() {
 		const {placing, canPlace, index, columns, tileSize} = this.props
 
-		this.props.stage.addChild(this.container = new Container())
+		this.props.stage.addChild(this.container = new PIXI.Container())
 		this.container.x = ((index % columns) + .5) * tileSize
 		this.container.y = (Math.floor(index / columns) + .5) * tileSize
 
@@ -24,7 +24,7 @@ class PlacingTower extends Component {
 			this.container.alpha = 0
 
 		if (placing) {
-			this.container.addChild(this.sprite = new Sprite(TextureCache[placing.image]))
+			this.container.addChild(this.sprite = new PIXI.Sprite(TextureCache[placing.image]))
 			this.sprite.anchor.set(.5)
 			this.container.addChild(this.range = Range(placing.range, canPlace ? 0x00FF00 : 0xFF0000))
 		} else {
@@ -41,7 +41,7 @@ class PlacingTower extends Component {
 				this.sprite = null
 				this.range = null
 			} else {
-				this.container.addChild(this.sprite = new Sprite(TextureCache[newProps.placing.image]))
+				this.container.addChild(this.sprite = new PIXI.Sprite(TextureCache[newProps.placing.image]))
 				this.sprite.anchor.set(.5)
 				this.container.addChild(this.range =
 					Range(newProps.placing.range, newProps.canPlace ? 0x00FF00 : 0xFF0000))
